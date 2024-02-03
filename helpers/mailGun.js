@@ -18,4 +18,4 @@ const sendMail = async (sender_email, receiver_email, email_subject, email_body)
         .catch(err => console.log(err))
 }
 
-sendMail()
+//sendMail()

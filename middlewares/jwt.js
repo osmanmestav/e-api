@@ -1,5 +1,5 @@
 import JWT from 'jsonwebtoken'
-import User from "../models/user.js";
+import User from "../models/account.js";
 
 
 
@@ -8,7 +8,7 @@ const generateToken = async (data, type) => {
         expiresIn: (type === "access" ? "10d" : '20d')
     };
     return await JWT.sign({
-        user_id: data._id,
+        account_id: data._id,
         email: data.email
     }, process.env.JWT_SECRET, options);
 }
@@ -30,8 +30,8 @@ const verifyAccessToken = (req, res, next) => {
             method: res.method,
             timestamp: new Date().toISOString(),
         });
-        let user = await User.findOne({_id: verify.user_id});
-        //let tokens = await Token.findOne({user_id: verify.user_id, "token.accessToken": token});
+        let user = await User.findOne({_id: verify.account_id});
+        //let tokens = await Token.findOne({user_id: verify.account_id, "token.accessToken": token});
         if (!user) {
             return await res.code(401).send({
                 success: false,
@@ -43,7 +43,7 @@ const verifyAccessToken = (req, res, next) => {
             });
         }
         req.payload = verify;
-        req.user = verify;
+        req.account = verify;
         next()
     });
 };

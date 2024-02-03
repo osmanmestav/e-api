@@ -5,6 +5,9 @@ import fastifyHelmet from "@fastify/helmet";
 import fastifyCompress from "@fastify/compress";
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import customErrorHandler from "./middlewares/customErrorHandler.js";
+import {XMLParser, XMLBuilder, XMLValidator} from "fast-xml-parser";
+import * as fs from "fs";
+
 
 dotenv.config()
 
@@ -54,7 +57,6 @@ app.register(import("./routes/v1/index.js"), {prefix: "/api/v1"});
 app.register(import('fastify-user-agent'))
 
 
-
 app.setNotFoundHandler(notFoundHandler);
 app.setErrorHandler(customErrorHandler);
 
@@ -70,3 +72,21 @@ const startServer = async () => {
     }
 }
 startServer()
+
+
+/*
+fs.readFile('a.xml', function (err, data) {
+    if (!err) {
+
+        const parser = new XMLParser();
+        let jObj = parser.parse(data);
+
+        const builder = new XMLBuilder();
+        const xmlContent = builder.build(jObj);
+        console.log(jObj)
+        //console.log(JSON.stringify(data));
+    }
+});
+*/
+
+

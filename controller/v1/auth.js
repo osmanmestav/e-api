@@ -1,14 +1,9 @@
 import bcrypt from 'bcryptjs';
 import {generateToken} from "../../middlewares/jwt.js";
-import users from '../../models/user.js'
+import users from '../../models/account.js'
 
 import requestIp from "request-ip";
-import referenceCode from "../../models/referenceCode.js";
 import {generatorCode} from "../../helpers/generatorCode.js";
-import sponsor from "../../models/sponsor.js";
-import reference from "../../models/references.js";
-import networks from "../../models/networks.js";
-import wallets from "../../models/wallet.js";
 
 /**
  *
@@ -48,16 +43,6 @@ const emailControl = async (req, res) => {
 
 const register = async (req, res) => {
     let body = req.body;
-
-    const reference = await referenceCode.findOne({code: body.code});
-    if (!reference && body.code) await res.code(401).send({
-        success: false,
-        errorCode: 400,
-        message: 'Not Found Reference Id',
-        path: res.url,
-        method: res.method,
-        timestamp: new Date().toISOString(),
-    });
     body.password = await bcrypt.hash(req.body.password, 10);
     const user = await users.create({
         name: body.name,
@@ -71,11 +56,7 @@ const register = async (req, res) => {
 
     const userData = user?.toObject();
     let code = await generatorCode(10);
-    await referenceCode.create({
-        user_id: user?._id,
-        code: code,
-        status: 1
-    })
+
 
     res.send({
         status: true,

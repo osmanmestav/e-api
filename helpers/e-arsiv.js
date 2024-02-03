@@ -340,6 +340,22 @@ const createDraftInvoice = async (token, invoiceDetails = {}) => {
 }
 
 
+const getAllInvoice = async (token, startDate, endDate, type) => {
+    //(token, command, pageName, data = {})
+    const invoices = await runCommand(
+        token,
+        ...COMMANDS.getAllInvoicesByDateRange,
+        "RG_TASLAKLAR",
+        {
+            baslangic: startDate,
+            bitis: endDate,
+            hangiTip: type
+        }
+    );
+    return invoices.data;
+}
+
+
 // Utils:
 
 function enableTestMode() {
@@ -622,5 +638,6 @@ export {
     getItiraz,
     updateUserData,
     apiLogout,
-    signInvoice
+    signInvoice,
+    getAllInvoice
 };

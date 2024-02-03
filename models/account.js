@@ -13,7 +13,7 @@ const accountSchema = mongoose.Schema({
         match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     },
     password: {type: String, required: false, unique: true},
-
+    e_token: {type: String, required: false},
     status: {type: Number, required: true, default: 0}, // 0 - Inactive, 1 - Active, 2 - Blocked
     avatar: {type: String, default: null},
     confirm: {type: Number, default: 0}, // 0 - Wallet not create, 1 - Wallet created
@@ -41,5 +41,5 @@ const accountSchema = mongoose.Schema({
     versionKey: false
 })
 accountSchema.index({email: -1});
-const account = mongoose.model('user', accountSchema);
+const account = mongoose.model('account', accountSchema);
 export default account;
